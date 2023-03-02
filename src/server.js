@@ -55,7 +55,3 @@ app.post('/login', (req, res, next) => {
 app.listen(8000, () => {
     console.log('server Started on port 8000');
 })
-
-// if (data[0].Email === email) {
-//     res.sendStatus(200)
-// } else console.log('ara')
