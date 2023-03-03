@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors'
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose'
+
 import * as dotenv from 'dotenv'
+
 
 const app = express()
 dotenv.config()
@@ -10,7 +12,7 @@ dotenv.config()
 app.use(cors());
 app.use(bodyParser.json());
 
-//mongose
+//mongoose
 
 const url =
     `mongodb+srv://gberi2012:${process.env.DB_PASSWORD}@cluster0.a2bfzeu.mongodb.net/test`
@@ -27,9 +29,10 @@ const User = mongoose.model('user', noteSchema)
 
 mongoose.connect(url)
 
+
 app.get('/', (req, res, next) => {
 
-    res.send('data')
+    res.send('hello')
 
 })
 
