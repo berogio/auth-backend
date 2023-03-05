@@ -14,7 +14,7 @@ const port = 3000
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/src/public/dist/authentication'))
+app.use(express.static(__dirname + '/src/public/dist/authentication/'))
 
 //mongoose
 
