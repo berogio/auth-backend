@@ -2,15 +2,19 @@ import express from 'express';
 import cors from 'cors'
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose'
-
+import path from 'path';
 import * as dotenv from 'dotenv'
 
+dotenv.config()
 
 const app = express()
-dotenv.config()
+
+const __dirname = path.dirname('src');
+const port = 3000
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/src/public/dist/authentication'))
 
 //mongoose
 
@@ -32,7 +36,7 @@ mongoose.connect(url)
 
 app.get('/', (req, res, next) => {
 
-    res.send('hello')
+    res.sendFile(path.join(__dirname))
 
 })
 
@@ -56,5 +60,5 @@ app.post('/login', (req, res, next) => {
 })
 
 app.listen(8000, () => {
-    console.log('server Started on port 8000');
+    console.log(` app listening on port ${port}`);
 })
