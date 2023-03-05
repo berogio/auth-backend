@@ -10,7 +10,7 @@ dotenv.config()
 const app = express()
 
 const __dirname = path.dirname('src');
-const port = 3000
+const port = 8000
 
 app.use(cors());
 app.use(bodyParser.json());
