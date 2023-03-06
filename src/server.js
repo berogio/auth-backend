@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose'
 import path from 'path';
 import * as dotenv from 'dotenv'
+import cookieParser from 'cookie-parser';
 
 dotenv.config()
 
@@ -12,6 +13,7 @@ const app = express()
 const __dirname = path.dirname('src');
 const port = 8000
 
+app.use(cookieParser())
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/src/public/dist/authentication/'))
@@ -29,6 +31,14 @@ const noteSchema = new mongoose.Schema({
     Password: String,
 })
 
+const noteSchemaBooks = new mongoose.Schema({
+    ISBN: String,
+    Name: String,
+    Img: String,
+    Author: String,
+});
+
+const Book = mongoose.model('book', noteSchemaBooks)
 const User = mongoose.model('user', noteSchema)
 
 mongoose.connect(url)
@@ -39,6 +49,42 @@ app.get('/', (req, res, next) => {
     res.sendFile(path.join(__dirname))
 
 })
+app.get('/books', (req, res, next) => {
+
+    Book.find({}, function(err, notes) {
+        res.send(notes);
+    });
+
+    Book.find({})
+        .then((notes) => {
+            res.send(notes);
+        })
+        .catch(err => {
+            res.status(400).end()
+        })
+
+})
+app.post('/books', (req, res, next) => {
+    const Newbook = req.body
+    console.log(Newbook)
+    const book = new Book(Newbook)
+    book.save().then((book) => {
+        console.log('new Book saved')
+        res.sendStatus(201)
+    })
+})
+
+
+// app.get('/test', (req, res, next) => {
+//     const { cookies } = req;
+//     if ('session_id' in cookies) {
+//         console.log('Session ID EXists');
+//         if (cookies.session_id = '12345') next();
+//         else res.status(403).send({ msg: 'not authenticated' })
+//     } else res.status(403).send({ msg: 'not authenticated' })
+
+
+// })
 
 app.post('/registration', (req, res, next) => {
     const UserData = req.body
