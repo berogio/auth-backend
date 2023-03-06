@@ -106,5 +106,5 @@ app.post('/login', (req, res, next) => {
 })
 
 app.listen(8000, () => {
-    console.log(` app listening on port ${port}`);
+    console.log(` app listening on Port ${port}`);
 })
