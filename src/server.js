@@ -1,13 +1,11 @@
 import express from 'express';
 import cors from 'cors'
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose'
 import path from 'path';
-import * as dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
-import { bookRouter } from './routes/book.js'
+import Book from './notes/note.js'
+import User from './notes/note.js'
 
-dotenv.config()
 
 const app = express()
 
@@ -18,32 +16,24 @@ app.use(cookieParser())
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/src/public/dist/authentication/'))
-app.use(bookRouter)
 
-//mongoose
 
-const url =
-    `mongodb+srv://gberi2012:${process.env.DB_PASSWORD}@cluster0.a2bfzeu.mongodb.net/test`
-mongoose.set('strictQuery', false);
 
-const noteSchema = new mongoose.Schema({
-    Vorname: String,
-    Nachname: String,
-    Email: String,
-    Password: String,
+app.get('/books', async(req, res, next) => {
+
+    const booknotes = await Book.find({})
+
+    res.json(booknotes)
 })
 
-
-const User = mongoose.model('user', noteSchema)
-
-mongoose.connect(url)
-
-app.get('/', (req, res, next) => {
-
-    res.sendFile(path.join(__dirname))
-
+app.post('/books', (req, res, next) => {
+    const Newbook = req.body
+    const book = new Book(Newbook)
+    book.save().then((book) => {
+        console.log('new Book saved')
+        res.sendStatus(201)
+    })
 })
-
 
 app.post('/registration', (req, res, next) => {
     const UserData = req.body
@@ -63,6 +53,22 @@ app.post('/login', (req, res, next) => {
         } else res.sendStatus(401)
     })
 })
+
+
+
+
+
+
+
+app.get('/', (req, res, next) => {
+
+    res.sendFile(path.join(__dirname))
+
+})
+
+app.use((req, res) => {
+    res.send('Page not found!')
+});
 
 app.listen(8000, () => {
     console.log(` app listening on Port ${port}`);
