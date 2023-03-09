@@ -28,6 +28,8 @@ app.get('/books', async(req, res, next) => {
 
 app.post('/books', (req, res, next) => {
     const Newbook = req.body
+    console.log(Newbook)
+
     const book = new Book(Newbook)
     book.save().then((book) => {
         console.log('new Book saved')
