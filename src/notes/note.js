@@ -44,6 +44,7 @@ const noteSchema = new mongoose.Schema({
 const Book = mongoose.model('book', noteSchemaBooks)
 const User = mongoose.model('user', noteSchema)
 
-export default
-Book;
-User
+export {
+    Book,
+    User
+}

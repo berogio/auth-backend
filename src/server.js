@@ -3,8 +3,9 @@ import cors from 'cors'
 import bodyParser from 'body-parser';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import Book from './notes/note.js'
-import User from './notes/note.js'
+import { Book, User } from './notes/note.js';
+
+
 
 const app = express()
 
@@ -17,16 +18,12 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/src/public/dist/authentication/'))
 
 app.get('/books', async(req, res, next) => {
-
     const booknotes = await Book.find({})
-
     res.json(booknotes)
 })
 
 app.post('/books', (req, res, next) => {
     const Newbook = req.body
-    console.log(Newbook)
-
     const book = new Book(Newbook)
     book.save().then((book) => {
         console.log('new Book saved')
