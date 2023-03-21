@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser';
 import Book from './notes/note.js'
 import User from './notes/note.js'
 
-
 const app = express()
 
 const __dirname = path.dirname('src');
@@ -16,8 +15,6 @@ app.use(cookieParser())
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/src/public/dist/authentication/'))
-
-
 
 app.get('/books', async(req, res, next) => {
 
@@ -55,12 +52,6 @@ app.post('/login', (req, res, next) => {
         } else res.sendStatus(401)
     })
 })
-
-
-
-
-
-
 
 app.get('/', (req, res, next) => {
 
