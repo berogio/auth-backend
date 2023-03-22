@@ -49,6 +49,11 @@ app.post('/login', (req, res, next) => {
         } else res.sendStatus(401)
     })
 })
+app.delete('/deletebook', (req, res, next) => {
+    const ISBN = req.body.ISBN
+    const gio = Book.deleteOne({ ISBN: ISBN }).remove().exec();
+    res.sendStatus(204)
+})
 
 app.get('/', (req, res, next) => {
 
