@@ -6,7 +6,7 @@ mongoose.connect(MONGODB_URL)
         console.log('Connected to MongoDb');
     })
     .catch((error) => {
-        console.log(error + 'error connecting to MongoDb');
+        console.log(`${error}error connecting to MongoDb`);
     });
 
 const noteSchemaBooks = new mongoose.Schema({
