@@ -1,70 +1,80 @@
 import express from 'express';
-import cors from 'cors'
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import * as logger from './utils/loger.js';
 import { Book, User } from './notes/note.js';
+import { PORT } from './utils/config.js';
 
+logger.error;
+logger.info;
 
-
-const app = express()
+const app = express();
 
 const __dirname = path.dirname('src');
-const port = 8000
 
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/src/public/dist/authentication/'))
+app.use(express.static(`${__dirname}/src/public/dist/authentication/`));
 
-app.get('/books', async(req, res, next) => {
-    const booknotes = await Book.find({})
-    res.json(booknotes)
-})
+app.get('/books', async (req, res) => {
+  const booknotes = await Book.find({});
+  res.json(booknotes);
+});
 
-app.post('/books', (req, res, next) => {
-    const Newbook = req.body
-    const book = new Book(Newbook)
-    book.save().then((book) => {
-        console.log('new Book saved')
-        res.sendStatus(201)
-    })
-})
+app.post('/books', (req, res) => {
+  const Newbook = req.body;
+  const book = new Book({
+    ISBN: req.body.ISBN,
+    Name: req.body.Name,
+    Author: req.body.Author,
+  });
+  book.save()
+    .then((book) => {
+      res.sendStatus(201);
+    }).catch((reson) => {
+      if (reson.name === 'ValidationError') {
+        res.status(400).send({ error: reson.message });
+      }
+    });
+});
 
-app.post('/registration', (req, res, next) => {
-    const UserData = req.body
-    const user = new User(UserData)
-    user.save().then((user) => {
-        console.log('new user saved')
-        res.send(user)
-    })
-})
+app.post('/registration', (req, res) => {
+  const UserData = req.body;
+  const user = new User(UserData);
+  user.save()
+    .then((user) => {
+      res.send(user);
+    }).catch((reson) => {
+      res.status(400).send(reson);
+    });
+});
 
-app.post('/login', (req, res, next) => {
-    const email = req.body.email
-    const password = req.body.password
-    User.find({ Email: email, Password: password }, (err, data) => {
-        if (data.length > 0) {
-            res.sendStatus(200)
-        } else res.sendStatus(401)
-    })
-})
-app.delete('/deletebook', (req, res, next) => {
-    const ISBN = req.body.ISBN
-    const gio = Book.deleteOne({ ISBN: ISBN }).remove().exec();
-    res.sendStatus(204)
-})
+app.post('/login', (req, res) => {
+  const { email } = req.body;
+  const { password } = req.body;
+  User.find({ Email: email, Password: password }, (err, data) => {
+    if (data.length > 0) {
+      res.sendStatus(200);
+    } else res.sendStatus(401);
+  });
+});
+app.delete('/deletebook', (req, res) => {
+  const { ISBN } = req.body;
+  Book.deleteOne({ ISBN }).remove().exec();
+  res.sendStatus(204);
+});
 
-app.get('/', (req, res, next) => {
-
-    res.sendFile(path.join(__dirname))
-
-})
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname));
+});
 
 app.use((req, res) => {
-    res.send('Page not found!')
+  res.send('Page not found!');
 });
 
 app.listen(8000, () => {
-    console.log(` app listening on Port ${port}`);
-})
+  logger.info(` app listening on Port ${PORT}`);
+});

@@ -1,50 +1,52 @@
-import mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
+import mongoose from 'mongoose';
+import { MONGODB_URL } from '../utils/config.js';
 
-dotenv.config()
-
-const url =
-    `mongodb+srv://gberi2012:${process.env.DB_PASSWORD}@cluster0.a2bfzeu.mongodb.net/test`
-mongoose.set('strictQuery', false);
-
-
-mongoose.connect(url)
-    .then(result => {
-        console.log('Connected to MongoDb')
+mongoose.connect(MONGODB_URL)
+    .then((result) => {
+        console.log('Connected to MongoDb');
     })
     .catch((error) => {
-        console.log('error connecting to MongoDb')
-    })
-
+        console.log('error connecting to MongoDb');
+    });
 
 const noteSchemaBooks = new mongoose.Schema({
-    ISBN: String,
-    Name: String,
+    ISBN: {
+        type: String || Number,
+        minLength: 4,
+        required: true,
+    },
+    Name: {
+        type: String,
+        minLength: 1,
+        required: true,
+    },
     Img: String,
-    Author: String,
+    Author: {
+        type: String,
+        minLength: 1,
+        required: true,
+    },
 });
 
-//delete __id and __v
+// delete __id and __v
 noteSchemaBooks.set('toJSON', {
     transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-    }
-})
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    },
+});
 const noteSchema = new mongoose.Schema({
     Vorname: String,
     Nachname: String,
     Email: String,
     Password: String,
-})
+});
 
-
-
-const Book = mongoose.model('book', noteSchemaBooks)
-const User = mongoose.model('user', noteSchema)
+const Book = mongoose.model('book', noteSchemaBooks);
+const User = mongoose.model('user', noteSchema);
 
 export {
     Book,
-    User
-}
+    User,
+};
