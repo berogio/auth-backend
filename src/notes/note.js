@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 import { MONGODB_URL } from '../utils/config.js';
 
 mongoose.connect(MONGODB_URL)
-    .then((result) => {
+    .then(() => {
         console.log('Connected to MongoDb');
     })
     .catch((error) => {
-        console.log('error connecting to MongoDb');
+        console.log(error + 'error connecting to MongoDb');
     });
 
 const noteSchemaBooks = new mongoose.Schema({
