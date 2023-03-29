@@ -11,9 +11,6 @@ notesRouter.get('/', (req, res) => {
     res.sendFile(path.join(__dirname));
 });
 
-notesRouter.use((req, res) => {
-    res.send('Page not found!');
-});
 
 notesRouter.post('/books', (req, res) => {
     const Newbook = req.body;
@@ -52,11 +49,18 @@ notesRouter.post('/login', (req, res) => {
         } else res.sendStatus(401);
     });
 });
+
 notesRouter.delete('/deletebook', (req, res) => {
     const { ISBN } = req.body;
     Book.deleteOne({ ISBN }).remove().exec();
     res.sendStatus(204);
 });
+
+
+notesRouter.use((req, res) => {
+    res.send('Page not found!');
+});
+
 
 export {
     notesRouter,
