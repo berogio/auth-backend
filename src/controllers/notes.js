@@ -11,8 +11,7 @@ notesRouter.get('/', (req, res) => {
     res.sendFile(path.join(__dirname));
 });
 
-
-notesRouter.post('/books', (req, res) => {
+notesRouter.post('/books', (req, res, next) => {
     const Newbook = req.body;
     const book = new Book({
         ISBN: req.body.ISBN,
@@ -22,14 +21,15 @@ notesRouter.post('/books', (req, res) => {
     book.save()
         .then((book) => {
             res.sendStatus(201);
-        }).catch((reson) => {
-            if (reson.name === 'ValidationError') {
-                res.status(400).send({ error: reson.message });
+        })
+        .catch(error => {
+            if (error.name === 'ValidationError') {
+                res.status(400).json(error.message)
             }
         });
 });
 
-notesRouter.post('/registration', (req, res) => {
+notesRouter.post('/registrations', (req, res) => {
     const UserData = req.body;
     const user = new User(UserData);
     user.save()
@@ -60,7 +60,6 @@ notesRouter.delete('/deletebook', (req, res) => {
 notesRouter.use((req, res) => {
     res.send('Page not found!');
 });
-
 
 export {
     notesRouter,
