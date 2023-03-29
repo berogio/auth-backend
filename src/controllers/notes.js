@@ -29,7 +29,7 @@ notesRouter.post('/books', (req, res, next) => {
         });
 });
 
-notesRouter.post('/registrations', (req, res) => {
+notesRouter.post('/registration', (req, res) => {
     const UserData = req.body;
     const user = new User(UserData);
     user.save()
