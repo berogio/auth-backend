@@ -5,16 +5,15 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import * as logger from './utils/loger.js';
 
+import errorHandler from './utils/errorHandler.js';
 
 import { PORT } from './utils/config.js';
 import { notesRouter } from './controllers/notes.js';
-// import errorHandler from './utils/errorHandler.js';
-
 
 const app = express();
 
 const __dirname = path.dirname('src');
-// app.use(errorHandler)
+
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -22,7 +21,8 @@ app.use(bodyParser.json());
 app.use(express.static(`${__dirname}/src/public/dist/authentication/`));
 app.use('/', notesRouter);
 
+app.use(errorHandler);
 
 app.listen(8000, () => {
-    logger.info(` app listening on Port ${PORT}`);
+  logger.info(` app listening on Port ${PORT}`);
 });

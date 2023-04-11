@@ -23,9 +23,7 @@ notesRouter.post('/books', (req, res, next) => {
             res.sendStatus(201);
         })
         .catch(error => {
-            if (error.name === 'ValidationError') {
-                res.status(400).json(error.message)
-            }
+            next(error)
         });
 });
 
