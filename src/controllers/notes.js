@@ -1,5 +1,5 @@
 import express from 'express';
-import { Book, User } from '../models/note.js';
+import { Book } from '../models/note.js';
 
 const notesRouter = express.Router();
 
@@ -27,26 +27,7 @@ notesRouter.post('/books', (req, res, next) => {
         });
 });
 
-notesRouter.post('/registration', (req, res) => {
-    const UserData = req.body;
-    const user = new User(UserData);
-    user.save()
-        .then((user) => {
-            res.send(user);
-        }).catch((reson) => {
-            res.status(400).send(reson);
-        });
-});
 
-notesRouter.post('/login', (req, res) => {
-    const { email } = req.body;
-    const { password } = req.body;
-    User.find({ Email: email, Password: password }, (err, data) => {
-        if (data.length > 0) {
-            res.sendStatus(200);
-        } else res.sendStatus(401);
-    });
-});
 
 notesRouter.delete('/deletebook', (req, res) => {
     const { ISBN } = req.body;
@@ -55,9 +36,9 @@ notesRouter.delete('/deletebook', (req, res) => {
 });
 
 
-notesRouter.use((req, res) => {
-    res.send('Page not found!');
-});
+// notesRouter.use((req, res) => {
+//     res.send('Page not found!');
+// });
 
 export {
     notesRouter,

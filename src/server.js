@@ -9,6 +9,7 @@ import errorHandler from './utils/errorHandler.js';
 
 import { PORT } from './utils/config.js';
 import { notesRouter } from './controllers/notes.js';
+import { usersRouter } from './controllers/user.js';
 
 const app = express();
 
@@ -22,7 +23,8 @@ app.use(express.static(`${__dirname}/src/public/dist/authentication/`));
 app.use('/', notesRouter);
 
 app.use(errorHandler);
+app.use(usersRouter)
 
 app.listen(8000, () => {
-  logger.info(` app listening on Port ${PORT}`);
+    logger.info(` app listening on Port ${PORT}`);
 });

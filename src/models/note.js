@@ -28,7 +28,7 @@ const noteSchemaBooks = new mongoose.Schema({
     },
 });
 
-// delete __id and __v
+// delete __id and __v armushaobs!
 noteSchemaBooks.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();
@@ -36,11 +36,24 @@ noteSchemaBooks.set('toJSON', {
         delete returnedObject.__v;
     },
 });
+
 const noteSchema = new mongoose.Schema({
-    Vorname: String,
-    Nachname: String,
-    Email: String,
-    Password: String,
+    Vorname: {
+        type: String || Number,
+        required: true,
+    },
+    Nachname: {
+        type: String || Number,
+        required: true,
+    },
+    Email: {
+        type: String || Number,
+        required: true,
+    },
+    passwordHash: {
+        type: String || Number,
+        required: true,
+    }
 });
 
 const Book = mongoose.model('book', noteSchemaBooks);
