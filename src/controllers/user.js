@@ -18,7 +18,7 @@ usersRouter.post('/registration', async(req, res) => {
 
     await user.save()
         .then(() => {
-            res.sendStatus(200)
+            res.sendStatus(201)
         }).catch((error) => {
             res.status(400).send(error);
         });
