@@ -15,13 +15,15 @@ usersRouter.post('/registration', async(req, res) => {
         passwordHash,
 
     });
+
     await user.save()
         .then(() => {
-            res.sendStatus(201)
+            res.sendStatus(200)
         }).catch((error) => {
             res.status(400).send(error);
         });
 });
+
 
 usersRouter.post('/login', async(req, res) => {
     const { email } = req.body;
@@ -32,8 +34,11 @@ usersRouter.post('/login', async(req, res) => {
             if (validapss) {
                 res.sendStatus(200)
             }
+        }).catch(error => {
+            res.status(401).json(error)
         });
 });
+
 
 export {
     usersRouter,
