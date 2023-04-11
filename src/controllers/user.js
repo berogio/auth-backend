@@ -15,7 +15,6 @@ usersRouter.post('/registration', async(req, res) => {
         passwordHash,
 
     });
-    console.log(user)
     await user.save()
         .then(() => {
             res.sendStatus(201)
@@ -24,14 +23,16 @@ usersRouter.post('/registration', async(req, res) => {
         });
 });
 
-usersRouter.post('/login', (req, res) => {
+usersRouter.post('/login', async(req, res) => {
     const { email } = req.body;
     const { password } = req.body;
-    User.find({ Email: email, Password: password }, (err, data) => {
-        if (data.length > 0) {
-            res.sendStatus(200);
-        } else res.sendStatus(401);
-    });
+    await User.find({ Email: email, }, )
+        .then(async(e) => {
+            let validapss = await bcrypt.compare(password, e[0].passwordHash)
+            if (validapss) {
+                res.sendStatus(200)
+            }
+        });
 });
 
 export {

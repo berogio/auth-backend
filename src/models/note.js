@@ -37,7 +37,7 @@ noteSchemaBooks.set('toJSON', {
     },
 });
 
-const noteSchema = new mongoose.Schema({
+const noteSchemaUsers = new mongoose.Schema({
     Vorname: {
         type: String || Number,
         required: true,
@@ -57,7 +57,7 @@ const noteSchema = new mongoose.Schema({
 });
 
 const Book = mongoose.model('book', noteSchemaBooks);
-const User = mongoose.model('user', noteSchema);
+const User = mongoose.model('user', noteSchemaUsers);
 
 export {
     Book,
