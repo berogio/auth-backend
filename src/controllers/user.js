@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../models/note.js';
+import jwt from 'jsonwebtoken';
 
 const usersRouter = express.Router();
 
@@ -32,13 +33,22 @@ usersRouter.post('/login', async(req, res) => {
     console.log(req.body)
     await User.find({ Email: email, }, )
         .then(async(e) => {
+            let id = e[0]._id.toString()
             let validapss = await bcrypt.compare(password, e[0].passwordHash)
             if (validapss) {
-                res.send(req.body)
+                const token = jwt.sign({ _id: id, }, 'secret')
+                res.cookie('jwt', token, {
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60 * 1000 //1day
+                })
+                res.send({
+                    message: 'succes'
+                })
             } else res.sendStatus(403)
         }).catch(error => {
             res.status(401).json(error)
         });
+
 });
 
 

@@ -15,7 +15,9 @@ const app = express();
 
 const __dirname = path.dirname('src');
 
-app.use(cors());
+app.use(cors({
+    credentials: true
+}));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
