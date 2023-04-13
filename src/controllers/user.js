@@ -26,14 +26,16 @@ usersRouter.post('/registration', async(req, res) => {
 
 
 usersRouter.post('/login', async(req, res) => {
+    console.log(req.body)
     const { email } = req.body;
     const { password } = req.body;
+    console.log(req.body)
     await User.find({ Email: email, }, )
         .then(async(e) => {
             let validapss = await bcrypt.compare(password, e[0].passwordHash)
             if (validapss) {
-                res.sendStatus(200)
-            }
+                res.send(req.body)
+            } else res.sendStatus(403)
         }).catch(error => {
             res.status(401).json(error)
         });

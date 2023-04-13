@@ -25,6 +25,6 @@ app.use('/', notesRouter);
 app.use(errorHandler);
 app.use(usersRouter)
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
     logger.info(` app listening on Port ${PORT}`);
 });
