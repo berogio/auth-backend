@@ -42,7 +42,7 @@ usersRouter.post('/login', async(req, res) => {
                     maxAge: 24 * 60 * 60 * 1000 //1day
                 })
                 res.send({
-                    message: 'succes'
+                    token
                 })
             } else res.sendStatus(403)
         }).catch(error => {
