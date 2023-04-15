@@ -20,7 +20,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(bodyParser.json());
-
+app.use(express.static('uploads'));
 app.use(express.static(`${__dirname}/src/public/dist/authentication/`));
 app.use('/', notesRouter);
 
