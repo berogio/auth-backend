@@ -24,12 +24,13 @@ notesRouter.get('/', (req, res) => {
 });
 
 notesRouter.post('/books', upload.single('prductImage'), (req, res, next) => {
+    console.log(req.body)
     const Newbook = req.body;
     const book = new Book({
         ISBN: req.body.ISBN,
         Name: req.body.Name,
         Author: req.body.Author,
-        prductImage: req.file.path
+        prductImage: req.file.destination
     });
     book.save()
         .then((book) => {
