@@ -14,7 +14,6 @@ usersRouter.post('/registration', async(req, res) => {
         Nachname,
         Email,
         passwordHash,
-
     });
 
     await user.save()
@@ -41,7 +40,7 @@ usersRouter.post('/login', async(req, res) => {
                     httpOnly: true,
                     maxAge: 24 * 60 * 60 * 1000 //1day
                 })
-                res.sendStatus({
+                res.send({
                     token
                 })
             } else res.sendStatus(403)
