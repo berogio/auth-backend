@@ -1,5 +1,17 @@
 import express from 'express';
 import { Book } from '../models/note.js';
+import multer from 'multer';
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({ storage: storage })
+
 
 const notesRouter = express.Router();
 
@@ -11,12 +23,14 @@ notesRouter.get('/', (req, res) => {
     res.sendFile(path.join(__dirname));
 });
 
-notesRouter.post('/books', (req, res, next) => {
+notesRouter.post('/books', upload.single('prductImage'), (req, res, next) => {
+    console.log(req.file.filename)
     const Newbook = req.body;
     const book = new Book({
         ISBN: req.body.ISBN,
         Name: req.body.Name,
         Author: req.body.Author,
+        prductImage: req.file.filename
     });
     book.save()
         .then((book) => {

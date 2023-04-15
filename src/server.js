@@ -15,16 +15,18 @@ const app = express();
 
 const __dirname = path.dirname('src');
 
-app.use(cors());
+app.use(cors({
+    credentials: true
+}));
 app.use(cookieParser());
 app.use(bodyParser.json());
-
+app.use(express.static('uploads'));
 app.use(express.static(`${__dirname}/src/public/dist/authentication/`));
 app.use('/', notesRouter);
 
 app.use(errorHandler);
 app.use(usersRouter)
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
     logger.info(` app listening on Port ${PORT}`);
 });
