@@ -50,7 +50,6 @@ usersRouter.post('/login', async(req, res) => {
 
 });
 
-
 export {
     usersRouter,
 };
