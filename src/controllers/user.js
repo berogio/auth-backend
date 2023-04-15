@@ -19,7 +19,7 @@ usersRouter.post('/registration', async(req, res) => {
 
     await user.save()
         .then(() => {
-            res.sendStatus(201)
+            res.sendStatus(200)
         }).catch((error) => {
             res.status(400).send(error);
         });
@@ -41,7 +41,9 @@ usersRouter.post('/login', async(req, res) => {
                     httpOnly: true,
                     maxAge: 24 * 60 * 60 * 1000 //1day
                 })
-                res.sendStatus(200)
+                res.sendStatus({
+                    token
+                })
             } else res.sendStatus(403)
         }).catch(error => {
             res.status(401).json(error)
