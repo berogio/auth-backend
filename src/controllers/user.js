@@ -25,12 +25,10 @@ usersRouter.post('/registration', async(req, res) => {
 });
 
 
-usersRouter.post('/login', async(req, res) => {
-    console.log(req.body)
+usersRouter.post('/login/', async(req, res) => {
     const { email } = req.body;
     const { password } = req.body;
-    console.log(req.body)
-    await User.find({ Email: email, }, )
+    await User.find({ Email: email, })
         .then(async(e) => {
             let id = e[0]._id.toString()
             let validapss = await bcrypt.compare(password, e[0].passwordHash)
@@ -40,15 +38,16 @@ usersRouter.post('/login', async(req, res) => {
                     httpOnly: true,
                     maxAge: 24 * 60 * 60 * 1000 //1day
                 })
-                res.send({
-                    token
-                })
+
+                res.send(token)
             } else res.sendStatus(403)
         }).catch(error => {
             res.status(401).json(error)
         });
 
 });
+
+
 
 export {
     usersRouter,

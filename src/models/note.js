@@ -28,7 +28,8 @@ const noteSchemaBooks = new mongoose.Schema({
     prductImage: {
         type: String,
         require: true,
-    }
+    },
+
 });
 
 // delete __id and __v armushaobs!

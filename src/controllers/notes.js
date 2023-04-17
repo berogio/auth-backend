@@ -24,7 +24,6 @@ notesRouter.get('/', (req, res) => {
 });
 
 notesRouter.post('/books', upload.single('prductImage'), (req, res, next) => {
-    console.log(req.file.filename)
     const Newbook = req.body;
     const book = new Book({
         ISBN: req.body.ISBN,
